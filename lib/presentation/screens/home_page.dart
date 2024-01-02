@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pokemon_game/presentation/characters/ash.dart';
 import 'package:pokemon_game/presentation/maps/pallet_town.dart';
@@ -12,15 +14,112 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double mapX = 0;
-  double mapY = 0;
+  double mapX = 1.25;
+  double mapY = 0.4;
+  double step = 0.2;
+  //No man's land for pallet town
+  List<List<double>> noMansLandPalletTown = [
+    [-0.429, 0.64],
+    [1.8499999999999999,0.6000000000000001],
+   [1.65,0.6],
+   [1.45,0.6],
+   [1.25,0.6],
+   [1.05,0.6],
+   [0.85,0.6],
+   [0.65,0.6]
+    
+  ];
+  int boySpriteCount = 0;
+  String boyDirection = 'down';
   String currentLocation = 'PalletTown';
-  void moveUp() {}
-  void moveDown() {}
-  void moveLeft() {}
-  void moveRight() {}
+  void moveUp() {
+    boyDirection = 'up';
+    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        mapY += step;
+      });
+    }
+
+    animateWalk();
+  }
+
+  void moveDown() {
+    boyDirection = 'down';
+    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        mapY -= step;
+      });
+    }
+
+    animateWalk();
+  }
+
+  void moveLeft() {
+    boyDirection = 'left';
+    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        mapX += step;
+      });
+    }
+
+    animateWalk();
+  }
+
+  void moveRight() {
+    boyDirection = 'right';
+    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        mapX -= step;
+      });
+    }
+
+    animateWalk();
+  }
+
   void pressedA() {}
   void pressedB() {}
+
+  void animateWalk() {
+    print('x :' + mapX.toString() + ' and y :' + mapY.toString());
+    Timer.periodic(Duration(milliseconds: 50), (timer) {
+      setState(() {
+        boySpriteCount++;
+      });
+      if (boySpriteCount == 3) {
+        boySpriteCount = 0;
+        timer.cancel();
+      }
+    });
+  }
+
+double cleanNum(double num){
+  return double.parse(num.toStringAsFixed(4));
+}
+  bool canMoveTo(String direction, var noMansLand, double x, double y) {
+    double stepX = 0;
+    double stepY = 0;
+    if (direction == 'left') {
+      stepX = step;
+      stepY = 0;
+    } else if (direction == 'right') {
+      stepX = -step;
+      stepY = 0;
+    } else if (direction == 'up') {
+      stepX = 0;
+      stepY = step;
+    } else if (direction == 'down') {
+      stepX = 0;
+      stepY = -step;
+    }
+    for (int i = 0; i < noMansLand.length; i++) {
+      if ((cleanNum(noMansLand[i][0]) == cleanNum(x + stepX)) &&
+          (cleanNum(noMansLand[i][1]) == cleanNum(y + stepY))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +131,13 @@ class _HomePageState extends State<HomePage> {
             child: Stack(
               children: [
                 PalletTown(x: mapX, y: mapY, currentMap: currentLocation),
-                Container(alignment: Alignment(0, 0),child: Ash())
+                Container(
+                    alignment: Alignment(0, 0),
+                    child: Ash(
+                      boySpriteCount: boySpriteCount,
+                      direction: boyDirection,
+                      location: currentLocation,
+                    ))
               ],
             ),
           )),

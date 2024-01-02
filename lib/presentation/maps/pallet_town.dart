@@ -13,7 +13,7 @@ class PalletTown extends StatelessWidget {
         alignment: Alignment(x, y),
         child: Image.asset(
           'assets/images/maps/pallet.png',
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width*0.75,
           fit: BoxFit.cover,
         ),
       );
