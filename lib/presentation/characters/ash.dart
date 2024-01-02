@@ -6,7 +6,7 @@ class Ash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 40,
       child: Image.asset(
         'assets/images/sprites/ash/down0.png',
         fit: BoxFit.cover,
