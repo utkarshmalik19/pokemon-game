@@ -4,8 +4,7 @@ class PalletTown extends StatelessWidget {
   final double x;
   final double y;
   final String currentMap;
-  const PalletTown(
-      {super.key, required this.x, required this.y, required this.currentMap});
+  const PalletTown({super.key, required this.x, required this.y, required this.currentMap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class PalletTown extends StatelessWidget {
         alignment: Alignment(x, y),
         child: Image.asset(
           'assets/images/maps/pallet.png',
-          width: MediaQuery.of(context).size.width ,
+          width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),
       );
