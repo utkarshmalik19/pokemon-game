@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pokemon_game/presentation/characters/ash.dart';
+import 'package:pokemon_game/presentation/maps/oak_lab.dart';
 import 'package:pokemon_game/presentation/maps/pallet_town.dart';
 import 'package:pokemon_game/presentation/widgets/button.dart';
 import 'package:pokemon_game/utils/consts.dart';
@@ -17,6 +18,10 @@ class _HomePageState extends State<HomePage> {
   double mapX = 1.25;
   double mapY = 0.4;
   double step = 0.2;
+
+  //Prof Oak Lab
+  double oakLabX = 0;
+  double oakLabY = 0;
   //No man's land for pallet town
   List<List<double>> noMansLandPalletTown = [
     [-0.429, 0.64],
@@ -26,7 +31,9 @@ class _HomePageState extends State<HomePage> {
    [1.25,0.6],
    [1.05,0.6],
    [0.85,0.6],
-   [0.65,0.6]
+   [0.65,0.6],
+
+   //[-1.15, -0.4] //Prof Oak lab door
     
   ];
   int boySpriteCount = 0;
@@ -34,24 +41,35 @@ class _HomePageState extends State<HomePage> {
   String currentLocation = 'PalletTown';
   void moveUp() {
     boyDirection = 'up';
-    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+    if(currentLocation == 'PalletTown'){
+      if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
       setState(() {
         mapY += step;
+      });      
+    }
+    if(double.parse((mapX).toStringAsFixed(4))== -1.15 && double.parse((mapY).toStringAsFixed(4))== -0.4){
+      setState(() {
+        currentLocation = 'OakLab';
+        oakLabX = 0;
+        oakLabY = -2.73;
       });
     }
-
     animateWalk();
+    }
   }
 
   void moveDown() {
     boyDirection = 'down';
-    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+    if(currentLocation == 'PalletTown'){
+      if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
       setState(() {
         mapY -= step;
       });
     }
 
     animateWalk();
+    }
+    
   }
 
   void moveLeft() {
@@ -131,8 +149,9 @@ double cleanNum(double num){
             child: Stack(
               children: [
                 PalletTown(x: mapX, y: mapY, currentMap: currentLocation),
+                OakLab(x: oakLabX, y: oakLabY, currentMap: currentLocation),
                 Container(
-                    alignment: Alignment(0, 0),
+                    alignment: const Alignment(0, 0),
                     child: Ash(
                       boySpriteCount: boySpriteCount,
                       direction: boyDirection,
