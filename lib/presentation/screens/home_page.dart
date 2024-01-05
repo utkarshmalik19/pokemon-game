@@ -55,6 +55,13 @@ class _HomePageState extends State<HomePage> {
       });
     }
     animateWalk();
+    }else if(currentLocation == 'OakLab'){
+      if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        oakLabY += step;
+      });      
+    }
+    animateWalk();
     }
   }
 
@@ -68,30 +75,55 @@ class _HomePageState extends State<HomePage> {
     }
 
     animateWalk();
+    }else if(currentLocation == 'OakLab'){
+      if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        oakLabY -= step;
+      });
+    }
+
+    animateWalk();
     }
     
   }
 
   void moveLeft() {
     boyDirection = 'left';
-    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+    if(currentLocation == 'PalletTown'){
+      if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
       setState(() {
         mapX += step;
       });
     }
 
     animateWalk();
+    }else if(currentLocation == 'OakLab'){
+      setState(() {
+        oakLabX += step;
+      });
+      animateWalk();
+    }
   }
 
   void moveRight() {
     boyDirection = 'right';
-    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+   if(currentLocation == 'PalletTown'){
+     if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
       setState(() {
         mapX -= step;
       });
     }
 
     animateWalk();
+   }else if(currentLocation == 'OakLab'){
+    if (canMoveTo(boyDirection, noMansLandPalletTown, mapX, mapY)) {
+      setState(() {
+        oakLabX -= step;
+      });
+    }
+
+    animateWalk();
+   }
   }
 
   void pressedA() {}
