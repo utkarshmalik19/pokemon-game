@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pokemon_game/presentation/characters/ash.dart';
+import 'package:pokemon_game/presentation/characters/prof_oak.dart';
 import 'package:pokemon_game/presentation/maps/oak_lab.dart';
 import 'package:pokemon_game/presentation/maps/pallet_town.dart';
 import 'package:pokemon_game/presentation/widgets/button.dart';
@@ -188,7 +189,8 @@ double cleanNum(double num){
                       boySpriteCount: boySpriteCount,
                       direction: boyDirection,
                       location: currentLocation,
-                    ))
+                    )),
+                    Container(alignment: Alignment(0,0.5),child: ProfOak(x: mapX, y: mapY + 50, location: currentLocation, oakDirection: 'Up'))
               ],
             ),
           )),
